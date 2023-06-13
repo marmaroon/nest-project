@@ -1,12 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TopPageController } from './top-page.controller';
-import { ConfigModule, ConfigService } from '@nestjs/config'; // Импортируйте ConfigModule и ConfigService
+import { TypegooseModule } from 'nestjs-typegoose';
+import { TopPageModel } from './top-page.model/top-page.model';
 
 @Module({
-  imports: [
-    ConfigModule, // Импортируйте ConfigModule
-  ],
   controllers: [TopPageController],
-  providers: [ConfigService], // Добавьте ConfigService в список провайдеров
+  imports: [
+    TypegooseModule.forFeature([
+      {
+        typegooseClass: TopPageModel,
+        schemaOptions: {
+          collection: 'TopPage'
+        }
+      }
+    ])
+  ]
 })
 export class TopPageModule {}
