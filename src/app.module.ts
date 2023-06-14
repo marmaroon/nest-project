@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { getMongoConfig } from './configs/mongo.config';
 import { ReviewService } from '../review/review.service';
+import { ReviewService } from './review/review.service';
 
 @Module({
   imports: [
