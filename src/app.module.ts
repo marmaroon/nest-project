@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from 'auth/auth.module';
-import { ProductModule } from 'product/product.module';
-import { ReviewModule } from 'review/review.module';
-import { TopPageModule } from 'top-page/top-page.module';
+import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
+import { TopPageModule } from './top-page/top-page.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { getMongoConfig } from './configs/mongo.config';
-import { ReviewService } from '../review/review.service';
-import { ReviewService } from './review/review.service';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -22,6 +20,6 @@ import { ReviewService } from './review/review.service';
     ProductModule,
     ReviewModule,
   ],
-  providers: [ConfigService, ReviewService], // Добавьте ConfigService в список провайдеров
+  providers: [ConfigService],
 })
 export class AppModule {}
