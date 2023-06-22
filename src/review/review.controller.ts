@@ -7,7 +7,7 @@ import { REVIEW_NOT_FOUND } from './review.constants';
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
-    @UsePipes( new ValidationPipe)
+    @UsePipes( new ValidationPipe) //передаем встроенный пайп
     @Post('create')
     async create(@Body() dto: CreateReviewDto) {
         return this.reviewService.create(dto)

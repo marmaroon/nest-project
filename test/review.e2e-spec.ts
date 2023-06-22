@@ -32,14 +32,27 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/review/create (POST) — Should create a review', async () => {
+  it('/review/create (POST) — Should create a review with dto there', async () => {
     const response = await request(app.getHttpServer())
       .post('/review/create')
       .send(testDto)
       .expect(201);
+      
     
     createdId = response.body._id;
     expect(createdId).toBeDefined();
+  });
+
+  it(`/review/create (POST) — Should return error 400 'rating must not be less than 1'`, async () => {
+    const response = await request(app.getHttpServer())
+      .post('/review/create')
+      .send({...testDto, rating: 0})
+      .expect(400);
+      const body = response.body
+      expect(response.body.message).toStrictEqual(['Рейтинг не может быть менее 1']) //нужна ли обязательно такая проверка или она априори валидируется через пайп?
+
+      console.log(body);
+      
   });
 
   it('/review/byProduct/:productId (GET) — Should return reviews by productId', async () => {
