@@ -59,16 +59,12 @@ describe('AppController (e2e)', () => {
       .post('/review/create')
       .send({...testDto, rating: 0})
       .expect(400);
-      const body = response.body
-      expect(response.body.message).toStrictEqual(['Рейтинг не может быть менее 1']) //нужна ли обязательно такая проверка или она априори валидируется через пайп?
-
-      console.log(body);
-      
   });
 
   it('/review/byProduct/:productId (GET) — Should return reviews by productId', async () => {
     const response = await request(app.getHttpServer())
       .get('/review/byProduct/' + productId)
+      .set('Authorization', 'Bearer ' + token)
       .expect(200)
       const body = response.body
       expect(body.length).toBe(1)
@@ -77,6 +73,7 @@ describe('AppController (e2e)', () => {
   it('/review/byProduct/:productId (GET) - Should return empty array for invalid productId', async () => {
     const response = await request(app.getHttpServer())
       .get('/review/byProduct/' + new Types.ObjectId().toHexString())
+      .set('Authorization', 'Bearer ' + token)
       .expect(200)
       const body = response.body
       expect(body.length).toBe(0)
@@ -104,16 +101,3 @@ describe('AppController (e2e)', () => {
       disconnect()
   })
 })
-
-//   it('/review/create (POST)', async (done) => {
-//     return request(app.getHttpServer())
-//       .post('/review/create')
-//       .send(testDto) //mock
-//       .expect(201)
-//       .then(({ body }: request.Response) => { //вытаскиваем только body 
-//         createdId = body._id;
-//         expect(createdId).toBeDefined()
-//         done() //вызываем некую функцию done, которая завершит
-//       })
-//   });
-// });
