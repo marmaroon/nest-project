@@ -2,7 +2,8 @@ import { Body, Controller, Delete, Get, Param, Post, HttpException, HttpStatus, 
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { REVIEW_NOT_FOUND } from './review.constants';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { UserEmail } from '../decorators/user-email.decorator';
 
 @Controller('review')
 export class ReviewController {
@@ -24,7 +25,9 @@ export class ReviewController {
 
     @UseGuards(JwtAuthGuard)
     @Get('byProduct/:productId')
-    async getbyProduct(@Param('productId') productId: string) {
+    async getbyProduct(@Param('productId') productId: string, @UserEmail() email: string) {
+        console.log(email);
+        
         return this.reviewService.findByProductId(productId)
     }
 }
