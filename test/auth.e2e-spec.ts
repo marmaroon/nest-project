@@ -36,7 +36,7 @@ describe('AuthController (e2e)', () => {
   });
 
   it('/review/create (POST) — Should return password error', async () => {
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .post('/auth/login')
       .send({ ...loginDto, password: "qwerty" })
       .expect(401, {
@@ -47,7 +47,7 @@ describe('AuthController (e2e)', () => {
   });
 
   it('/review/create (POST) — Should return password error', async () => {
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .post('/auth/login')
       .send({ ...loginDto, login: 'QQQ@q.ru' })
       .expect(401, {
