@@ -4,19 +4,20 @@ import { ReviewService } from './review.service';
 import { REVIEW_NOT_FOUND } from './review.constants';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { UserEmail } from '../decorators/user-email.decorator';
+import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 
 @Controller('review')
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
-    @UsePipes( new ValidationPipe)
+    @UsePipes( new ValidationPipe())
     @Post('create')
     async create(@Body() dto: CreateReviewDto) {
         return this.reviewService.create(dto)
     }
     
     @Delete(':id')
-    async delete(@Param('id') id: string) {
+    async delete(@Param('id', IdValidationPipe) id: string) {
         const deletedDoc = await this.reviewService.delete(id);
         if(!deletedDoc) {
             throw new HttpException(REVIEW_NOT_FOUND, HttpStatus.NOT_FOUND)
@@ -25,7 +26,7 @@ export class ReviewController {
 
     @UseGuards(JwtAuthGuard) //только авторизованные пользователи
     @Get('byProduct/:productId')
-    async getbyProduct(@Param('productId') productId: string, @UserEmail() email: string) {
+    async getbyProduct(@Param('productId', IdValidationPipe) productId: string, @UserEmail() email: string) {
         console.log(email);
         
         return this.reviewService.findByProductId(productId)
