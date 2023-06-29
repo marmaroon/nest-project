@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
-import { CreateReviewDto } from 'src/review/dto/create-review.dto';
-import { ReviewModel } from 'src/review/review.model';
+import { ReviewModel } from '../review/review.model';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FindProductDto } from './dto/find-product.dto';
 import { ProductModel } from './product.model';
+
+// interface ProductWithReviews extends ProductModel {
+//     review: ReviewModel[];
+//     reviewCount: number;
+//     reviewAvg: number;
+// }
 
 @Injectable()
 export class ProductService {
@@ -52,10 +57,12 @@ export class ProductService {
             },
             {
                 $addFields: {
-                    reviewCount: { $size: '$review' },
-                    reviewAvg: { $avg: '$review.rating' }
+                    reviewCount: { $size: '$reviews' },
+                    reviewAvg: { $avg: '$reviews.rating' }
                 }
             }
         ]).exec() as unknown as (ProductModel & {review: ReviewModel[], reviewCount: number, reviewAvg: number}) [];
+        // .exec() as unknown as ProductWithReviews[];
     }
 }
+

@@ -5,11 +5,6 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { Types } from 'mongoose'
 import { InjectModel } from 'nestjs-typegoose';
 
-class Leak {
-
-}
-const leaks = []
-
 @Injectable()
 export class ReviewService {
     constructor(@InjectModel(ReviewModel) private readonly reviewModel: ModelType<ReviewModel>) { }
@@ -29,7 +24,6 @@ export class ReviewService {
     }
 
     async deleteByProductId(productId: string) {
-        leaks.push(new Leak())
         return this.reviewModel.deleteMany({productId: new Types.ObjectId(productId)}).exec()
     }
 

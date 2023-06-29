@@ -9,7 +9,7 @@ import { UserEmail } from '../decorators/user-email.decorator';
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
-    @UsePipes( new ValidationPipe) //передаем встроенный пайп
+    @UsePipes( new ValidationPipe)
     @Post('create')
     async create(@Body() dto: CreateReviewDto) {
         return this.reviewService.create(dto)
@@ -23,7 +23,7 @@ export class ReviewController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard) //только авторизованные пользователи
     @Get('byProduct/:productId')
     async getbyProduct(@Param('productId') productId: string, @UserEmail() email: string) {
         console.log(email);

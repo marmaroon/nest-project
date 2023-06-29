@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsString, IsOptional, IsArray, ValidateNested} from "class-validator";
+import { IsNumber, IsString, IsOptional, IsArray, ValidateNested, IsNotEmpty} from "class-validator";
 
 class ProductCharacteristicDto {
     @IsString()
@@ -33,15 +33,19 @@ export class CreateProductDto {
 
     @IsString()
     disadvantages: string;
-
-    @IsString({ each: true} ) //проверка каждого
+    
+    @IsArray()
+    @IsString({ each: true })
+    @IsNotEmpty({ each: true })
     categories: string[];
 
-    @IsString({ each: true} )
+    @IsArray()
+    @IsString({ each: true })
+    @IsNotEmpty({ each: true })
     tags: string[];
 
     @IsArray()
-    @ValidateNested() //зайти в этот объект и провалидировать его тоже
-    @Type(() => ProductCharacteristicDto)
-    characteristics: ProductCharacteristicDto[]
+    @ValidateNested({ each: true })
+    @IsNotEmpty({ each: true })
+    characteristics: ProductCharacteristicDto[];
 }
