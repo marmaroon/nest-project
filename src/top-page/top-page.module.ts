@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TopPageController } from './top-page.controller';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { TopPageModel } from './top-page.model';
-import { ConfigModule } from '@nestjs/config'; // Импортируем ConfigModule
+import { ConfigModule } from '@nestjs/config';
+import { TopPageService } from './top-page.service';
 
 @Module({
   controllers: [TopPageController],
@@ -15,7 +16,8 @@ import { ConfigModule } from '@nestjs/config'; // Импортируем ConfigM
         }
       }
     ]),
-    ConfigModule.forRoot() // Добавляем ConfigModule в импорты
-  ]
+    ConfigModule.forRoot(),
+  ],
+  providers: [TopPageService], // Перемещаем TopPageService в providers
 })
 export class TopPageModule {}
