@@ -22,7 +22,20 @@ export class TopPageService {
     }
 
     async findByCategory(firstCategory: TopLevelCategory) {
-        return this.topPageModel.find({firstCategory}, {alias: 1, secondCategory: 1, title: 1}).exec() //возвращаем только часть модели
+        return this.topPageModel.aggregate([
+        {
+            $match:{
+                firstCategory
+            }
+        },
+        {
+            $group: {
+                _id: { secondCaregory: '$secondCategory'},
+                pages: { $push: { alias: '$alias', title: '$title'}}
+            }
+        }
+    ])
+    .exec() //возвращаем только часть модели и вложенный массив с категориями
     }
 
     async findByText(text: string) {
