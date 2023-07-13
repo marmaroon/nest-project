@@ -6,12 +6,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { FindProductDto } from './dto/find-product.dto';
 import { ProductModel } from './product.model';
 
-// interface ProductWithReviews extends ProductModel {
-//     review: ReviewModel[];
-//     reviewCount: number;
-//     reviewAvg: number;
-// }
-
 @Injectable()
 export class ProductService {
     constructor(@InjectModel(ProductModel) private readonly productModel: ModelType<ProductModel>) { }
